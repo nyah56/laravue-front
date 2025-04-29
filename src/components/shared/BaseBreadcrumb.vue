@@ -1,15 +1,32 @@
 <script setup lang="ts">
+import { shallowRef, watchEffect } from 'vue';
 import { ChevronRightIcon } from 'vue-tabler-icons';
-
+import { useRoute } from 'vue-router';
+const route = useRoute();
 type Breadcrumb = {
   title: string;
   disabled: boolean;
   href: string;
 };
 const props = defineProps({
-  title: String,
-  breadcrumbs: Array as () => Breadcrumb[],
-  icon: String
+  title: String
+});
+
+const breadcrumbs = shallowRef<Breadcrumb[]>([]);
+watchEffect(() => {
+  const routeTitle = (route.meta.title as string) || (route.name as string) || 'Untitled';
+  breadcrumbs.value = [
+    {
+      title: 'Home',
+      disabled: false,
+      href: '/'
+    },
+    {
+      title: routeTitle,
+      disabled: true,
+      href: route.fullPath
+    }
+  ];
 });
 </script>
 
@@ -20,11 +37,11 @@ const props = defineProps({
       <v-card variant="flat" class="px-4 py-3">
         <v-row no-gutters class="align-center">
           <v-col md="5">
-            <h3 class="text-h3">{{ props.title }}</h3>
+            <h3 class="text-h3">{{ title }}</h3>
           </v-col>
 
           <v-col md="7" sm="12" cols="12">
-            <v-breadcrumbs :items="props.breadcrumbs" class="text-h5 justify-md-end pa-1">
+            <v-breadcrumbs :items="breadcrumbs" class="text-h5 justify-md-end pa-1">
               <template v-slot:divider>
                 <div class="d-flex align-center">
                   <ChevronRightIcon size="17" />

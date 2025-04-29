@@ -1,33 +1,86 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
+import { useField, useForm } from 'vee-validate';
 
-const page = ref({ title: 'Sample Page' });
-const breadcrumbs = shallowRef([
-  {
-    title: 'Others',
-    disabled: false,
-    href: '#'
-  },
-  {
-    title: 'Sample Page',
-    disabled: true,
-    href: '#'
+const route = useRoute();
+const { handleSubmit, handleReset } = useForm({
+  validationSchema: {
+    name(value: string) {
+      if (value?.length >= 2) return true;
+
+      return 'Name needs to be at least 2 characters.';
+    },
+    phone(value: string) {
+      if (/^[0-9-]{7,}$/.test(value)) return true;
+
+      return 'Phone number needs to be at least 7 digits.';
+    },
+    email(value: string) {
+      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
+
+      return 'Must be a valid e-mail.';
+    },
+    select(value: boolean) {
+      if (value) return true;
+
+      return 'Select an item.';
+    },
+    checkbox(value: string) {
+      if (value === '1') return true;
+
+      return 'Must be checked.';
+    }
   }
-]);
+});
+const name = useField('name');
+const phone = useField('phone');
+const email = useField('email');
+const select = useField<string>('select');
+const checkbox = useField('checkbox');
+
+const items = ref(['Item 1', 'Item 2', 'Item 3', 'Item 4']);
+
+const submit = handleSubmit((values) => {
+  alert(JSON.stringify(values, null, 2));
+});
+const page = ref({ title: 'Sample asaa' });
 </script>
 
 <template>
-  <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
+  <BaseBreadcrumb :title="page.title"></BaseBreadcrumb>
   <v-row>
     <v-col cols="12" md="12">
       <UiParentCard title="Simple Title">
-        Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif ad
-        minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in
-        reprehended in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui
-        officiate descent molls anim id est labours.
+        <form @submit.prevent="submit">
+          <v-text-field v-model="name.value.value" :counter="10" :error-messages="name.errorMessage.value" label="Name"></v-text-field>
+
+          <v-text-field
+            v-model="phone.value.value"
+            :counter="7"
+            :error-messages="phone.errorMessage.value"
+            label="Phone Number"
+          ></v-text-field>
+
+          <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value" label="E-mail"></v-text-field>
+
+          <v-select v-model="select.value.value" :error-messages="select.errorMessage.value" :items="items" label="Select"></v-select>
+
+          <v-checkbox
+            v-model="checkbox.value.value"
+            :error-messages="checkbox.errorMessage.value"
+            label="Option"
+            type="checkbox"
+            value="1"
+          ></v-checkbox>
+
+          <v-btn class="me-4" type="submit"> submit </v-btn>
+
+          <v-btn @click="handleReset"> clear </v-btn>
+        </form>
       </UiParentCard>
     </v-col>
   </v-row>
