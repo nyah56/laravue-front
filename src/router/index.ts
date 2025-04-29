@@ -37,7 +37,7 @@ router.beforeEach(async (to, from, next) => {
 
   const isPublicPage = publicPages.includes(to.path);
   const authRequired = !isPublicPage && to.matched.some((record) => record.meta.requiresAuth);
-
+  // auth.user = null;
   // User not logged in and trying to access a restricted page
   console.log(auth.user);
   if (authRequired && !auth.user) {
