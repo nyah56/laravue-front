@@ -2,7 +2,9 @@ import { defineStore } from 'pinia';
 import { router } from '@/router';
 import { api, auth } from '@/utils/api';
 const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
-
+interface User {
+  name: string;
+}
 export const useAuthStore = defineStore({
   id: 'auth',
 
@@ -10,7 +12,7 @@ export const useAuthStore = defineStore({
     // initialize state from local storage to enable user to stay logged in
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     // @ts-ignore
-    user: null,
+    user: null as User | null,
     returnUrl: null
   }),
   persist: true,

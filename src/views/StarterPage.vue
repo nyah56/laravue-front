@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
 
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 import { useField, useForm } from 'vee-validate';
 
-const route = useRoute();
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
     name(value: string) {
@@ -56,18 +54,36 @@ const page = ref({ title: 'Sample asaa' });
     <v-col cols="12" md="12">
       <UiParentCard title="Simple Title">
         <form @submit.prevent="submit">
-          <v-text-field v-model="name.value.value" :counter="10" :error-messages="name.errorMessage.value" label="Name"></v-text-field>
+          <v-text-field
+            v-model="name.value.value"
+            :counter="10"
+            :error-messages="name.errorMessage.value"
+            label="Name"
+            variant="outlined"
+          ></v-text-field>
 
           <v-text-field
             v-model="phone.value.value"
             :counter="7"
             :error-messages="phone.errorMessage.value"
             label="Phone Number"
+            variant="outlined"
           ></v-text-field>
 
-          <v-text-field v-model="email.value.value" :error-messages="email.errorMessage.value" label="E-mail"></v-text-field>
+          <v-text-field
+            v-model="email.value.value"
+            :error-messages="email.errorMessage.value"
+            label="E-mail"
+            variant="outlined"
+          ></v-text-field>
 
-          <v-select v-model="select.value.value" :error-messages="select.errorMessage.value" :items="items" label="Select"></v-select>
+          <v-select
+            v-model="select.value.value"
+            :error-messages="select.errorMessage.value"
+            :items="items"
+            label="Select"
+            variant="outlined"
+          ></v-select>
 
           <v-checkbox
             v-model="checkbox.value.value"

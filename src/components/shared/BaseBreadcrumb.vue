@@ -37,7 +37,7 @@ watchEffect(() => {
       <v-card variant="flat" class="px-4 py-3">
         <v-row no-gutters class="align-center">
           <v-col md="5">
-            <h3 class="text-h3">{{ title }}</h3>
+            <h3 class="text-h3">{{ props.title }}</h3>
           </v-col>
 
           <v-col md="7" sm="12" cols="12">

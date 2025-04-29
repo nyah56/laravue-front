@@ -23,6 +23,11 @@ const MainRoutes = {
       component: () => import('@/views/StarterPage.vue')
     },
     {
+      name: 'Products',
+      path: '/products',
+      component: () => import('@/views/products/index.vue')
+    },
+    {
       name: 'Tabler Icons',
       path: '/icons/tabler',
       component: () => import('@/views/utilities/icons/TablerIcons.vue')
