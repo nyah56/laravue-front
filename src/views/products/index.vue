@@ -17,7 +17,8 @@ const headers = [
   { key: 'name', title: 'Name', value: 'name' },
   { key: 'supplier_name', title: 'Supplier Name', value: 'supplier_name' },
   { key: 'price', title: 'Price', value: 'price' },
-  { key: 'properties', title: 'Properties', value: 'properties' }
+  { key: 'properties', title: 'Properties', value: 'properties' },
+  { key: 'action', title: 'Action', value: 'action' }
   //   { text: 'Actions', value: 'actions', sortable: false }
 ];
 const header = ref(headers);

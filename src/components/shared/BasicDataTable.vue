@@ -15,7 +15,7 @@
     </template>
 
     <v-data-table :headers="headers" :items="props.data" :search="search" item-key="name" class="elevation-1">
-      <template v-slot:item.actions="{ item }">
+      <template v-slot:item.action="{ item }">
         <v-btn size="small" color="primary" class="me-2">Edit</v-btn>
         <v-btn size="small" color="error">Delete</v-btn>
       </template>
