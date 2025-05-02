@@ -13,6 +13,7 @@ export const useAuthStore = defineStore({
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     // @ts-ignore
     user: null as User | null,
+    logoutTimer: null as ReturnType<typeof setTimeout> | null,
     returnUrl: null
   }),
   persist: true,
@@ -26,8 +27,9 @@ export const useAuthStore = defineStore({
             'Content-Type': 'application/json'
           }
         });
-        console.log('User data:', response.data);
+        // console.log('User data:', response.data);
         this.user = response.data;
+        this.resetLogoutTimer();
       } catch (error) {
         console.error('Error fetching user data:', error);
         this.user = null;
@@ -44,10 +46,32 @@ export const useAuthStore = defineStore({
       router.push(this.returnUrl || '/dashboard');
     },
     async logout() {
+      if (this.logoutTimer) {
+        clearTimeout(this.logoutTimer);
+        this.logoutTimer = null;
+      }
       await auth.post('/api/logout');
       this.user = null;
       // localStorage.removeItem('user');
       router.push('/login');
+    },
+    resetLogoutTimer() {
+      if (this.logoutTimer) clearTimeout(this.logoutTimer);
+
+      // Auto logout after 15 minutes (900000 ms)
+      this.logoutTimer = setTimeout(
+        async () => {
+          try {
+            await this.getUser(); // test if backend is reachable
+            this.logout(); // backend is alive → proceed with logout
+          } catch (error) {
+            // console.warn('⚠️ Auto-logout failed to reach backend. Just clearing user.');
+            this.user = null; // backend unreachable → clear user only
+          }
+        },
+        15 * 60 * 1000
+      );
+      // console.log('🆕 Logout timer set for 11 minutes:', this.logoutTimer);
     }
   }
 });
