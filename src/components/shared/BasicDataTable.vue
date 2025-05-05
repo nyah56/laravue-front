@@ -10,14 +10,17 @@
           class="ma-2"
           style="max-width: 200px"
         ></v-text-field>
-        <v-btn class="elevation-0" color="primary">New</v-btn>
+        <div class="d-flex ga-2">
+          <v-btn class="elevation-0" color="primary" :to="trashedUrl">Trashed File</v-btn>
+          <v-btn class="elevation-0" color="primary" :to="url">New</v-btn>
+        </div>
       </div>
     </template>
 
     <v-data-table :headers="headers" :items="props.data" :search="search" item-key="name" class="elevation-1">
       <template v-slot:item.action="{ item }">
-        <v-btn size="small" color="primary" class="me-2">Edit</v-btn>
-        <v-btn size="small" color="error">Delete</v-btn>
+        <v-btn size="small" color="primary" class="me-2" @click="emit('edit', item)">Edit</v-btn>
+        <v-btn size="small" color="error" @click="emit('delete', item)">Delete</v-btn>
       </template>
     </v-data-table>
   </v-card>
@@ -33,5 +36,11 @@ const props = defineProps<{
     title: string;
     value?: any;
   }[];
+  url: string;
+  trashedUrl: string;
+}>();
+const emit = defineEmits<{
+  (e: 'edit', item: any): void;
+  (e: 'delete', item: any): void;
 }>();
 </script>

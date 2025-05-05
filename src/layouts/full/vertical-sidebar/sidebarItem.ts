@@ -1,4 +1,4 @@
-import { DashboardIcon, BrandChromeIcon, BuildingWarehouseIcon, BoxIcon } from 'vue-tabler-icons';
+import { DashboardIcon, BrandChromeIcon, BuildingWarehouseIcon, BoxIcon, UsersIcon } from 'vue-tabler-icons';
 
 export interface menu {
   header?: string;
@@ -35,6 +35,12 @@ const sidebarItem: menu[] = [
     title: 'Products',
     icon: BoxIcon,
     to: '/products'
+    // type: 'external'
+  },
+  {
+    title: 'Supplier',
+    icon: UsersIcon,
+    to: '/suppliers'
     // type: 'external'
   }
 ];

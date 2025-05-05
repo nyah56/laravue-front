@@ -33,19 +33,20 @@ const getData = async () => {
     console.error(error);
   }
 };
-const getDeleted = async () => {
-  try {
-    const response = await api.get('/api/supplier/restore-deleted/');
-    console.log(response.data.data);
-    // products.value = response.data.data;
-    // console.log(products.value);
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const getDeleted = async () => {
+//   try {
+//     const response = await api.get('/api/supplier/restore-deleted/');
+//     console.log(response.data.data);
+//     // products.value = response.data.data;
+//     // console.log(products.value);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 const page = ref({ title: 'Sample Page' });
 onMounted(() => {
   getData();
-  getDeleted();
+  // getDeleted();
 });
 </script>
+@/utils/axios

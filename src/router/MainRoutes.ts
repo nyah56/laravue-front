@@ -23,6 +23,21 @@ const MainRoutes = {
       component: () => import('@/views/products/index.vue')
     },
     {
+      name: 'Supplier',
+      path: '/suppliers',
+      component: () => import('@/views/supplier/index.vue')
+    },
+    {
+      name: 'Create Supplier',
+      path: '/suppliers/create',
+      component: () => import('@/views/supplier/create.vue')
+    },
+    {
+      name: 'Edit Supplier',
+      path: '/suppliers/edit/:id',
+      component: () => import('@/views/supplier/edit.vue')
+    },
+    {
       name: 'Tabler Icons',
       path: '/icons/tabler',
       component: () => import('@/views/utilities/icons/TablerIcons.vue')
