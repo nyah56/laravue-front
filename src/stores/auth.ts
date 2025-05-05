@@ -50,10 +50,16 @@ export const useAuthStore = defineStore({
         clearTimeout(this.logoutTimer);
         this.logoutTimer = null;
       }
-      await auth.post('/api/logout');
-      this.user = null;
-      // localStorage.removeItem('user');
-      router.push('/login');
+      try {
+        await auth.post('/api/logout');
+        this.user = null;
+        // localStorage.removeItem('user');
+        router.push('/login');
+      } catch (error) {
+        console.error('Credential invalidated');
+        this.user = null;
+        router.push('/login');
+      }
     },
     resetLogoutTimer() {
       if (this.logoutTimer) clearTimeout(this.logoutTimer);

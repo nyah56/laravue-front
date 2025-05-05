@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
+import { ref } from 'vue';
+const auth = useAuthStore();
+const loggedIn = ref(null);
+
+// console.log(auth.user);
+const urlHome = loggedIn.value ? '/dashboard' : '/login';
+</script>
 
 <template>
   <v-row no-gutters class="h-screen">
@@ -14,7 +22,7 @@
         <p>
           <small>The page you are looking was moved, removed, <br />renamed, or might never exist! </small>
         </p>
-        <v-btn variant="flat" color="primary" class="mt-4" to="/" prepend-icon="$home"> Home</v-btn>
+        <v-btn variant="flat" color="primary" class="mt-4" :to="urlHome" prepend-icon="$home"> Home</v-btn>
       </div>
     </v-col>
   </v-row>
