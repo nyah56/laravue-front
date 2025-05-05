@@ -6,12 +6,20 @@
         :data="supplier"
         :headers="header"
         url="/suppliers/create"
-        @edit="getById"
-        @delete="openDialog"
-        trashed-url="/suppliers/trashed"
+        :edit="false"
+        :delete="false"
+        :restore="true"
+        @restore="openDialog"
+        trashed-url="/suppliers"
         main-url="/suppliers"
       />
-      <ConfirmDelete v-model:dialog="showDialog" @confirm-delete="deleteData" />
+      <ConfirmDelete
+        v-model:dialog="showDialog"
+        title="Data Restore"
+        text="Your Data Will Be Restored to main Database"
+        icon="mdi-update"
+        @confirm-delete="restoreData"
+      />
     </v-col>
   </v-row>
 </template>
@@ -46,7 +54,7 @@ const openDialog = (item: any) => {
 };
 const getData = async () => {
   try {
-    const response = await api.get('/api/supplier');
+    const response = await api.get('/api/supplier/trashed/');
     // console.log(response.data.data);
     supplier.value = response.data.data;
     // console.log(products.value);
@@ -54,12 +62,12 @@ const getData = async () => {
     console.error(error);
   }
 };
-const deleteData = async () => {
+const restoreData = async () => {
   // showDialog.value = true;
   // console.log(item);
 
   try {
-    const response = await api.delete(`/api/supplier/${deleteId.value}`);
+    const response = await api.get(`/api/supplier/restore/${deleteId.value}`);
     // console.log(response.data.data);
     // supplier.value = response.data.data;
     // console.log(products.value);

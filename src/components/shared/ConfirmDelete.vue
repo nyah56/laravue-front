@@ -2,16 +2,17 @@
   <v-dialog v-model="props.dialog" width="auto">
     <v-card max-width="400">
       <v-card-title>
-        <h3>Confirm Delete</h3>
+        <h3>{{ title }}</h3>
       </v-card-title>
 
       <v-card-text>
-        <p>Are you sure you want to delete this item?</p>
+        <p>{{ text }}</p>
       </v-card-text>
 
       <v-card-actions>
         <v-btn @click="cancelDelete">Cancel</v-btn>
-        <v-btn color="error" @click="confirmDelete">Delete</v-btn>
+        <v-btn v-if="props.title" color="primary" @click="confirmDelete">Restore</v-btn>
+        <v-btn v-else color="error" @click="confirmDelete">Delete</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

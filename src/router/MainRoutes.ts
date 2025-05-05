@@ -28,6 +28,11 @@ const MainRoutes = {
       component: () => import('@/views/supplier/index.vue')
     },
     {
+      name: 'Trashed Supplier',
+      path: '/suppliers/trashed',
+      component: () => import('@/views/supplier/trashed.vue')
+    },
+    {
       name: 'Create Supplier',
       path: '/suppliers/create',
       component: () => import('@/views/supplier/create.vue')
