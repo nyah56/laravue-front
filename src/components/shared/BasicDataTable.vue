@@ -13,7 +13,7 @@
         <div class="d-flex ga-2">
           <v-btn v-if="!props.restore" class="elevation-0" color="primary" :to="trashedUrl">Trashed File</v-btn>
           <v-btn v-else class="elevation-0" color="primary" :to="mainUrl">Back</v-btn>
-          <v-btn class="elevation-0" color="primary" :to="url">New</v-btn>
+          <v-btn class="elevation-0" color="primary" :to="createUrl">New</v-btn>
         </div>
       </div>
     </template>
@@ -39,7 +39,7 @@ const props = withDefaults(
       title: string;
       value?: any;
     }[];
-    url: string;
+    createUrl: string;
     trashedUrl: string;
     mainUrl: string;
     edit?: boolean;

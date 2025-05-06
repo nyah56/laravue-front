@@ -5,7 +5,7 @@
       <BasicDataTable
         :data="supplier"
         :headers="header"
-        url="/suppliers/create"
+        create-url="/suppliers/create"
         @edit="getById"
         @delete="openDialog"
         trashed-url="/suppliers/trashed"

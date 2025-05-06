@@ -2,7 +2,13 @@
   <BaseBreadcrumb :title="page.title"></BaseBreadcrumb>
   <v-row>
     <v-col cols="12" md="12">
-      <BasicDataTable :data="products" :headers="header" />
+      <BasicDataTable
+        :data="products"
+        :headers="header"
+        create-url="/products/create"
+        trashed-url="/products/trashed"
+        main-url="/products"
+      />
     </v-col>
   </v-row>
 </template>

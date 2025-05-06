@@ -17,11 +17,18 @@ const MainRoutes = {
       path: '/starter',
       component: () => import('@/views/StarterPage.vue')
     },
+    //PRODUCTS ROUTES
     {
       name: 'Products',
       path: '/products',
       component: () => import('@/views/products/index.vue')
     },
+    {
+      name: 'Products Create',
+      path: '/products/create',
+      component: () => import('@/views/products/create.vue')
+    },
+    //SUPPLIER ROUTES
     {
       name: 'Supplier',
       path: '/suppliers',
