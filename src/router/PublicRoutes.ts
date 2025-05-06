@@ -1,6 +1,6 @@
 const PublicRoutes = {
-  path: '/',
-  component: () => import('@/layouts/blank/BlankLayout.vue'), // Or use a simple RouterView wrapper
+  path: '/login3',
+  component: () => import('@/views/authentication/LoginPage.vue'), // Or use a simple RouterView wrapper
   meta: {
     requiresAuth: false
   },
@@ -10,11 +10,11 @@ const PublicRoutes = {
       path: '/login',
       component: () => import('@/views/authentication/LoginPage.vue')
     },
-    {
-      name: 'Login',
-      path: '/login1',
-      component: () => import('@/views/authentication/auth/LoginPage.vue')
-    },
+    // {
+    //   name: 'Login',
+    //   path: '/login1',
+    //   component: () => import('@/views/authentication/auth/LoginPage.vue')
+    // },
     {
       name: 'Register',
       path: '/register',

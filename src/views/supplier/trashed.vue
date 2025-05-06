@@ -18,7 +18,6 @@
         v-model:dialog="showDialog"
         title="Data Restore"
         text="Your Data Will Be Restored to main Database"
-        icon="mdi-update"
         @confirm-delete="restoreData"
       />
     </v-col>

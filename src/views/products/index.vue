@@ -8,7 +8,9 @@
         create-url="/products/create"
         trashed-url="/products/trashed"
         main-url="/products"
+        @delete="openDialog"
       />
+      <ConfirmDelete v-model:dialog="showDialog" @confirm-delete="deleteData" />
     </v-col>
   </v-row>
 </template>
@@ -16,6 +18,7 @@
 <script setup lang="ts">
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import BasicDataTable from '@/components/shared/BasicDataTable.vue';
+import ConfirmDelete from '@/components/shared/ConfirmDelete.vue';
 import { ref, onMounted } from 'vue';
 import { api } from '@/utils/api';
 const headers = [
@@ -29,12 +32,32 @@ const headers = [
 ];
 const header = ref(headers);
 const products = ref([]);
+const showDialog = ref(false);
+const deleteId = ref();
 const getData = async () => {
   try {
     const response = await api.get('/api/products');
-    console.log(response.data.data);
+    // console.log(response.data.data);
     products.value = response.data.data;
     // console.log(products.value);
+  } catch (error) {
+    console.error(error);
+  }
+};
+const openDialog = (item: any) => {
+  showDialog.value = true;
+  deleteId.value = item.id;
+};
+const deleteData = async () => {
+  // showDialog.value = true;
+  // console.log(item);
+
+  try {
+    const response = await api.delete(`/api/products/${deleteId.value}`);
+    // console.log(response.data.data);
+    // supplier.value = response.data.data;
+    // console.log(products.value);
+    await getData();
   } catch (error) {
     console.error(error);
   }

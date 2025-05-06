@@ -11,15 +11,10 @@ import { onMounted } from 'vue';
 const { handleSubmit, defineField, handleReset, errors } = useForm({
   validationSchema: yup.object({
     name: yup.string().required('Company Name is Required').min(2, 'Company Name must be at least 2 characters'),
-    // supplier_id: yup.string().required('supplier_id is Required').min(2, 'supplier_id must be at least 2 characters'),
-    contacts: yup.object({
-      phone: yup
-        .string()
-        .matches(
-          /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g,
-          'Phone must be at least 7 digits and contain only numbers and dashes'
-        ),
-      email: yup.string().email('Email must be valid')
+    supplier_id: yup.string().required('Supplier Name is Required'),
+    properties: yup.object({
+      size: yup.number().min(0),
+      color: yup.string()
     })
   })
 });
@@ -28,21 +23,25 @@ const [name] = defineField('name');
 const [supplier_id] = defineField('supplier_id');
 const [product_image] = defineField('product_image');
 const [price] = defineField('price');
-const [phone] = defineField('contacts.phone');
-const [email] = defineField('contacts.email');
+const [size] = defineField('properties.size');
+const [color] = defineField('properties.color');
 
 // const select = useField<string>('select');
 const postData = async (data: object) => {
   try {
-    const response = await api.post('/api/supplier/', data);
+    const response = await api.post('/api/products/', data);
     // console.log(response.data.data);
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    switch (error.status) {
+      case 422:
+        console.error(error.response.data.message);
+        break;
+    }
   }
 };
 const submit = handleSubmit(async (values) => {
   console.log(values);
-  //   await postData(values);
+  await postData(values);
 });
 
 const supplier = ref();
@@ -97,18 +96,27 @@ const page = ref({ title: 'Entry Product' });
             label="Product Image"
             variant="outlined"
           ></v-text-field>
-          <v-number-input v-model="price" :counter="10" :error-messages="errors['price']" label="Price" variant="outlined"></v-number-input>
-          <h2>Contacts</h2>
-          <v-divider class="my-3"></v-divider>
           <v-text-field
-            v-model="phone"
-            :counter="6"
-            :error-messages="errors['contacts.phone']"
-            label="Phone Number"
+            class=""
+            v-model="price"
+            type="number"
+            :error-messages="errors['price']"
+            label="Price"
             variant="outlined"
           ></v-text-field>
 
-          <v-text-field v-model="email" :error-messages="errors['contacts.email']" label="E-mail" variant="outlined"></v-text-field>
+          <h2>Properties</h2>
+          <v-divider class="my-3"></v-divider>
+          <v-text-field
+            v-model="size"
+            :counter="6"
+            :error-messages="errors['properties.size']"
+            label="Size"
+            variant="outlined"
+            type="number"
+          ></v-text-field>
+
+          <v-text-field v-model="color" :error-messages="errors['properties.color']" label="Color" variant="outlined"></v-text-field>
 
           <v-btn class="me-4" type="submit"> submit </v-btn>
 
@@ -118,3 +126,10 @@ const page = ref({ title: 'Entry Product' });
     </v-col>
   </v-row>
 </template>
+<style>
+input.v-field__input::-webkit-inner-spin-button,
+input.v-field__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+</style>

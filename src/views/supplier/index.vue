@@ -40,10 +40,6 @@ const getById = (item: any) => {
   router.push(`/suppliers/edit/${item.id}`);
 };
 const deleteId = ref('');
-const openDialog = (item: any) => {
-  showDialog.value = true;
-  deleteId.value = item.id;
-};
 const getData = async () => {
   try {
     const response = await api.get('/api/supplier');
@@ -53,6 +49,10 @@ const getData = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+const openDialog = (item: any) => {
+  showDialog.value = true;
+  deleteId.value = item.id;
 };
 const deleteData = async () => {
   // showDialog.value = true;
@@ -68,16 +68,7 @@ const deleteData = async () => {
     console.error(error);
   }
 };
-const getDeleted = async () => {
-  try {
-    const response = await api.get('/api/supplier/restore-deleted/');
-    console.log(response.data.data);
-    // products.value = response.data.data;
-    // console.log(products.value);
-  } catch (error) {
-    console.error(error);
-  }
-};
+
 const page = ref({ title: 'Supplier' });
 onMounted(() => {
   getData();
