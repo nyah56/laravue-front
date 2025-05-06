@@ -3,6 +3,7 @@ import { router } from '@/router';
 import { api, auth } from '@/utils/api';
 const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
 interface User {
+  id: number;
   name: string;
 }
 export const useAuthStore = defineStore({

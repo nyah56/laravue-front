@@ -1,4 +1,6 @@
 const PublicRoutes = {
+  path: '/',
+  component: () => import('@/layouts/blank/BlankLayout.vue'), // Or use a simple RouterView wrapper
   meta: {
     requiresAuth: false
   },

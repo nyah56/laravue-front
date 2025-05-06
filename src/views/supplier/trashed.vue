@@ -5,13 +5,14 @@
       <BasicDataTable
         :data="supplier"
         :headers="header"
-        url="/suppliers/create"
+        create-url="/suppliers/create"
         :edit="false"
         :delete="false"
         :restore="true"
         @restore="openDialog"
         trashed-url="/suppliers"
         main-url="/suppliers"
+        cr
       />
       <ConfirmDelete
         v-model:dialog="showDialog"
