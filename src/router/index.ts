@@ -42,7 +42,7 @@ router.beforeEach(async (to, from, next) => {
   // auth.user = null;
 
   // User not logged in and trying to access a restricted page
-  console.log(auth.isAdmin);
+  // console.log(auth.isAdmin);
   // if (authRequired && !auth.user) {
   //   auth.returnUrl = to.fullPath; // Save the intended page
   //   next('/login');

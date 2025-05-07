@@ -9,6 +9,7 @@ import { api } from '@/utils/api';
 import { onMounted } from 'vue';
 // Use Yup to simplify validation schema
 import { useRoute } from 'vue-router';
+import SelectWithSearch from '@/components/shared/SelectWithSearch.vue';
 // Use Yup to simplify validation schema
 
 const route = useRoute();
@@ -48,7 +49,7 @@ const postData = async (data: object) => {
 const getData = async () => {
   try {
     const response = await api.get(`/api/products/${id}`);
-    console.log(response.data.data);
+    // console.log(response.data.data);
     const data = response.data.data;
     const { size, color } = data.properties ?? {};
     setValues({
@@ -80,18 +81,12 @@ interface SupplierData {
   name: string;
 }
 
-const mapForSelect = (datas: Array<SupplierData>) => {
-  //   console.log(datas);
-  const mapped = datas.map((data) => ({ id: data.id, name: data.name }));
-  return mapped;
-};
-
 const fetchSupplierData = async () => {
   try {
     const response = await api.get('/api/supplier/');
     // console.log(response.data.data);
     // console.log();
-    supplier.value = mapForSelect(response.data.data);
+    supplier.value = response.data.data;
   } catch (error) {
     console.error(error);
   }
@@ -111,15 +106,13 @@ const page = ref({ title: 'Entry Product' });
       <UiParentCard title="Product Form">
         <form @submit.prevent="submit">
           <v-text-field v-model="name" :counter="10" :error-messages="errors['name']" label="Name" variant="outlined"></v-text-field>
-          <v-select
+          <SelectWithSearch
             v-model="supplier_id"
             :items="supplier"
-            item-title="name"
-            item-value="id"
-            :error-messages="errors['supplier_id']"
+            :errors="errors['supplier_id']"
             label="Select Supplier"
-            variant="outlined"
-          ></v-select>
+            :use-model-value="true"
+          ></SelectWithSearch>
           <v-text-field
             v-model="product_image"
             :counter="10"

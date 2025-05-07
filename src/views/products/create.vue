@@ -7,11 +7,13 @@ import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { api } from '@/utils/api';
 import { onMounted } from 'vue';
+import SelectWithSearch from '@/components/shared/SelectWithSearch.vue';
 // Use Yup to simplify validation schema
 const { handleSubmit, defineField, handleReset, errors } = useForm({
   validationSchema: yup.object({
     name: yup.string().required('Company Name is Required').min(2, 'Company Name must be at least 2 characters'),
     supplier_id: yup.string().required('Supplier Name is Required'),
+    price: yup.number().required(),
     properties: yup.object({
       size: yup.number().min(0),
       color: yup.string()
@@ -61,7 +63,8 @@ const fetchSupplierData = async () => {
     const response = await api.get('/api/supplier/');
     // console.log(response.data.data);
     // console.log();
-    supplier.value = mapForSelect(response.data.data);
+    supplier.value = response.data.data;
+    // console.log(typeof supplier.value);
   } catch (error) {
     console.error(error);
   }
@@ -80,7 +83,7 @@ const page = ref({ title: 'Entry Product' });
       <UiParentCard title="Product Form">
         <form @submit.prevent="submit">
           <v-text-field v-model="name" :counter="10" :error-messages="errors['name']" label="Name" variant="outlined"></v-text-field>
-          <v-select
+          <!-- <v-select
             v-model="supplier_id"
             :items="supplier"
             item-title="name"
@@ -88,7 +91,13 @@ const page = ref({ title: 'Entry Product' });
             :error-messages="errors['supplier_id']"
             label="Select Supplier"
             variant="outlined"
-          ></v-select>
+          ></v-select> -->
+          <SelectWithSearch
+            v-model="supplier_id"
+            :items="supplier"
+            :errors="errors['supplier_id']"
+            label="Select Supplier"
+          ></SelectWithSearch>
           <v-text-field
             v-model="product_image"
             :counter="10"
