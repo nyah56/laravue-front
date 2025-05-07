@@ -33,6 +33,11 @@ const MainRoutes = {
       path: '/products/edit/:id',
       component: () => import('@/views/products/edit.vue')
     },
+    {
+      name: 'Products Trashed',
+      path: '/products/trashed',
+      component: () => import('@/views/products/trashed.vue')
+    },
     //SUPPLIER ROUTES
     {
       name: 'Supplier',

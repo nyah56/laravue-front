@@ -3,15 +3,22 @@
   <v-row>
     <v-col cols="12" md="12">
       <BasicDataTable
-        :data="products"
+        :data="supplier"
         :headers="header"
+        :edit="false"
+        :delete="false"
+        :restore="true"
+        @restore="openDialog"
         create-url="/products/create"
         trashed-url="/products/trashed"
         main-url="/products"
-        @edit="getById"
-        @delete="openDialog"
       />
-      <ConfirmDelete v-model:dialog="showDialog" @confirm-delete="deleteData" />
+      <ConfirmDelete
+        v-model:dialog="showDialog"
+        title="Data Restore"
+        text="Your Data Will Be Restored to main Database"
+        @confirm-delete="restoreData"
+      />
     </v-col>
   </v-row>
 </template>
@@ -23,39 +30,40 @@ import ConfirmDelete from '@/components/shared/ConfirmDelete.vue';
 import { ref, onMounted } from 'vue';
 import { api } from '@/utils/api';
 import { router } from '@/router';
+const showDialog = ref(false);
+
 const headers = [
   // Do NOT include id
-  { key: 'name', title: 'Name', value: 'name' },
-  { key: 'supplier_name', title: 'Supplier Name', value: 'supplier_name' },
-  { key: 'price', title: 'Price', value: 'price' },
-  { key: 'properties', title: 'Properties', value: 'properties' },
+  { key: 'name', title: 'Company Name', value: 'name' },
+  { key: 'address', title: 'Address', value: 'address' },
+  { key: 'contacts', title: 'Contacts', value: 'contacts' },
   { key: 'action', title: 'Action', value: 'action' }
   //   { text: 'Actions', value: 'actions', sortable: false }
 ];
 const header = ref(headers);
-const products = ref([]);
-const showDialog = ref(false);
-const deleteId = ref();
+const supplier = ref([]);
+
+const deleteId = ref('');
+const openDialog = (item: any) => {
+  showDialog.value = true;
+  deleteId.value = item.id;
+};
 const getData = async () => {
   try {
-    const response = await api.get('/api/products');
+    const response = await api.get('/api/products/trashed/');
     // console.log(response.data.data);
-    products.value = response.data.data;
+    supplier.value = response.data.data;
     // console.log(products.value);
   } catch (error) {
     console.error(error);
   }
 };
-const openDialog = (item: any) => {
-  showDialog.value = true;
-  deleteId.value = item.id;
-};
-const deleteData = async () => {
+const restoreData = async () => {
   // showDialog.value = true;
-  // console.log(item);
+  //   console.log(deleteId.value);
 
   try {
-    const response = await api.delete(`/api/products/${deleteId.value}`);
+    const response = await api.get(`/api/products/restore/${deleteId.value}`);
     // console.log(response.data.data);
     // supplier.value = response.data.data;
     // console.log(products.value);
@@ -64,24 +72,11 @@ const deleteData = async () => {
     console.error(error);
   }
 };
-// const getDeleted = async () => {
-//   try {
-//     const response = await api.get('/api/supplier/restore-deleted/');
-//     console.log(response.data.data);
-//     // products.value = response.data.data;
-//     // console.log(products.value);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-const getById = (item: any) => {
-  // console.log(item);
-  router.push(`/products/edit/${item.id}`);
-};
+
 const page = ref({ title: 'Products' });
 onMounted(() => {
   getData();
-  // getDeleted();
+  //   getDeleted();
 });
 </script>
-@/utils/axios
+@/utils/axios @/utils/api
