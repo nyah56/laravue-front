@@ -28,6 +28,11 @@ const MainRoutes = {
       path: '/products/create',
       component: () => import('@/views/products/create.vue')
     },
+    {
+      name: 'Products Edit',
+      path: '/products/edit/:id',
+      component: () => import('@/views/products/edit.vue')
+    },
     //SUPPLIER ROUTES
     {
       name: 'Supplier',
@@ -72,7 +77,10 @@ const MainRoutes = {
     {
       name: 'Colors',
       path: '/utils/colors',
-      component: () => import('@/views/utilities/colors/ColorPage.vue')
+      component: () => import('@/views/utilities/colors/ColorPage.vue'),
+      meta: {
+        isAdmin: true
+      }
     }
   ]
 };

@@ -40,6 +40,10 @@ const getById = (item: any) => {
   router.push(`/suppliers/edit/${item.id}`);
 };
 const deleteId = ref('');
+const test = async () => {
+  const response = await api.get('/api/user');
+  console.log(response.data);
+};
 const getData = async () => {
   try {
     const response = await api.get('/api/supplier');
@@ -72,6 +76,7 @@ const deleteData = async () => {
 const page = ref({ title: 'Supplier' });
 onMounted(() => {
   getData();
+  test();
   //   getDeleted();
 });
 </script>

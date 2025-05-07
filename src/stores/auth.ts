@@ -5,6 +5,7 @@ const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
 interface User {
   id: number;
   name: string;
+  // role: string;
 }
 export const useAuthStore = defineStore({
   id: 'auth',
@@ -14,6 +15,7 @@ export const useAuthStore = defineStore({
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     // @ts-ignore
     user: null as User | null,
+    isAdmin: false,
     logoutTimer: null as ReturnType<typeof setTimeout> | null,
     returnUrl: null
   }),
@@ -29,7 +31,8 @@ export const useAuthStore = defineStore({
           }
         });
         // console.log('User data:', response.data);
-        this.user = response.data;
+        this.isAdmin = response.data.data.role === 'Admin' ? true : false;
+        this.user = response.data.data;
         this.resetLogoutTimer();
       } catch (error) {
         console.error('Error fetching user data:', error);

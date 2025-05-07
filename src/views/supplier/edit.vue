@@ -50,7 +50,7 @@ const getData = async () => {
     const response = await api.get(`/api/supplier/${id}`);
     const responseData = response.data.data;
     const { phone, email } = responseData.contacts ?? {};
-
+    console.log(responseData);
     setValues({
       name: responseData.name,
       address: responseData.address,

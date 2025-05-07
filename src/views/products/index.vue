@@ -8,6 +8,7 @@
         create-url="/products/create"
         trashed-url="/products/trashed"
         main-url="/products"
+        @edit="getById"
         @delete="openDialog"
       />
       <ConfirmDelete v-model:dialog="showDialog" @confirm-delete="deleteData" />
@@ -21,6 +22,7 @@ import BasicDataTable from '@/components/shared/BasicDataTable.vue';
 import ConfirmDelete from '@/components/shared/ConfirmDelete.vue';
 import { ref, onMounted } from 'vue';
 import { api } from '@/utils/api';
+import { router } from '@/router';
 const headers = [
   // Do NOT include id
   { key: 'name', title: 'Name', value: 'name' },
@@ -72,6 +74,10 @@ const deleteData = async () => {
 //     console.error(error);
 //   }
 // };
+const getById = (item: any) => {
+  // console.log(item);
+  router.push(`/products/edit/${item.id}`);
+};
 const page = ref({ title: 'Sample Page' });
 onMounted(() => {
   getData();
