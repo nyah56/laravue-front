@@ -29,6 +29,7 @@ const [size] = defineField('properties.size');
 const [color] = defineField('properties.color');
 
 // const select = useField<string>('select');
+// console.log(typeof errors);
 const postData = async (data: object) => {
   try {
     const response = await api.post('/api/products/', data);
@@ -83,15 +84,7 @@ const page = ref({ title: 'Entry Product' });
       <UiParentCard title="Product Form">
         <form @submit.prevent="submit">
           <v-text-field v-model="name" :counter="10" :error-messages="errors['name']" label="Name" variant="outlined"></v-text-field>
-          <!-- <v-select
-            v-model="supplier_id"
-            :items="supplier"
-            item-title="name"
-            item-value="id"
-            :error-messages="errors['supplier_id']"
-            label="Select Supplier"
-            variant="outlined"
-          ></v-select> -->
+
           <SelectWithSearch
             v-model="supplier_id"
             :items="supplier"

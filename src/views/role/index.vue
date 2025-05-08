@@ -5,7 +5,7 @@
       <BasicDataTable
         :data="supplier"
         :headers="header"
-        create-url="/suppliers/create"
+        @click="showForm = true"
         @edit="getById"
         @delete="openDialog"
         trashed-url="/suppliers/trashed"
@@ -20,16 +20,17 @@
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import BasicDataTable from '@/components/shared/BasicDataTable.vue';
 import ConfirmDelete from '@/components/shared/ConfirmDelete.vue';
+
 import { ref, onMounted } from 'vue';
 import { api } from '@/utils/api';
 import { router } from '@/router';
 const showDialog = ref(false);
+const showForm = ref(false);
 
 const headers = [
   // Do NOT include id
-  { key: 'name', title: 'Company Name', value: 'name' },
-  { key: 'address', title: 'Address', value: 'address' },
-  { key: 'contacts', title: 'Contacts', value: 'contacts' },
+  { key: 'name', title: 'Name', value: 'name' },
+  { key: 'guard_name', title: 'Guard Name', value: 'guard_name' },
   { key: 'action', title: 'Action', value: 'action' }
   //   { text: 'Actions', value: 'actions', sortable: false }
 ];
@@ -37,16 +38,17 @@ const header = ref(headers);
 const supplier = ref([]);
 const getById = (item: any) => {
   // console.log(item);
-  router.push(`/suppliers/edit/${item.id}`);
+  //   showForm.value = true;
+  router.push(`/role/edit/${item.id}`);
 };
 const deleteId = ref('');
-// const test = async () => {
-//   const response = await api.get('/api/user');
-//   console.log(response.data);
-// };
+//   const test = async () => {
+//     const response = await api.get('/api/user');
+//     console.log(response.data);
+//   };
 const getData = async () => {
   try {
-    const response = await api.get('/api/supplier');
+    const response = await api.get('/api/role');
     // console.log(response.data.data);
     supplier.value = response.data.data;
     // console.log(products.value);
@@ -63,7 +65,7 @@ const deleteData = async () => {
   // console.log(item);
 
   try {
-    const response = await api.delete(`/api/supplier/${deleteId.value}`);
+    const response = await api.delete(`/api/role/${deleteId.value}`);
     // console.log(response.data.data);
     // supplier.value = response.data.data;
     // console.log(products.value);
@@ -73,11 +75,10 @@ const deleteData = async () => {
   }
 };
 
-const page = ref({ title: 'Supplier' });
+const page = ref({ title: 'Role' });
 onMounted(() => {
   getData();
   // test();
   //   getDeleted();
 });
 </script>
-@/utils/axios @/utils/api

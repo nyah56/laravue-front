@@ -22,6 +22,7 @@ export const useAuthStore = defineStore({
   persist: true,
   actions: {
     async getUser() {
+      if (this.user) return this.user;
       try {
         const response = await api.get('/api/user', {
           headers: {
@@ -34,9 +35,14 @@ export const useAuthStore = defineStore({
         this.isAdmin = response.data.data.role === 'Admin' ? true : false;
         this.user = response.data.data;
         this.resetLogoutTimer();
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        this.user = null;
+      } catch (error: any) {
+        // console.log(error);
+        switch (error.response.status) {
+          case 401:
+            this.user = null;
+            console.error('logout');
+            break;
+        }
       }
     },
     async login(email: string, password: string) {

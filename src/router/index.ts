@@ -29,6 +29,7 @@ interface AuthStore {
   returnUrl: string | null;
   login(username: string, password: string): Promise<void>;
   logout(): void;
+  getUser(): void;
 }
 
 router.beforeEach(async (to, from, next) => {
@@ -41,23 +42,10 @@ router.beforeEach(async (to, from, next) => {
   const adminOnly = authRequired && to.matched.some((record) => record.meta.isAdmin);
   // auth.user = null;
 
-  // User not logged in and trying to access a restricted page
-  // console.log(auth.isAdmin);
-  // if (authRequired && !auth.user) {
-  //   auth.returnUrl = to.fullPath; // Save the intended page
-  //   next('/login');
-  // } else if (auth.user && to.path === '/login') {
-  //   // User logged in and trying to access the login page
-  //   next({
-  //     query: {
-  //       ...to.query,
-  //       redirect: auth.returnUrl !== '/' ? to.fullPath : undefined
-  //     }
-  //   });
-  // } else {
-  //   // All other scenarios, either public page or authorized access
-  //   next();
-  // }
+  if (!publicPages) {
+    auth.getUser();
+  }
+
   if (authRequired && !auth.user) {
     auth.returnUrl = to.fullPath;
     return next('/login');
