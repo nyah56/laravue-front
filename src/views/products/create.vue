@@ -43,7 +43,7 @@ const postData = async (data: object) => {
   }
 };
 const submit = handleSubmit(async (values) => {
-  console.log(values);
+  // console.log(values);
   await postData(values);
 });
 

@@ -8,8 +8,9 @@
         @click="showForm = true"
         @edit="getById"
         @delete="openDialog"
-        trashed-url="/suppliers/trashed"
-        main-url="/suppliers"
+        create-url="/role/create"
+        trashed-url="/role/trashed"
+        main-url="/role"
       />
       <ConfirmDelete v-model:dialog="showDialog" @confirm-delete="deleteData" />
     </v-col>

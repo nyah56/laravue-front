@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
-import { ref } from 'vue';
+
 const auth = useAuthStore();
-const loggedIn = ref(null);
 
 // console.log(auth.user);
-const urlHome = loggedIn.value ? '/dashboard' : '/login';
+const urlHome = auth.user ? '/dashboard' : '/login';
 </script>
 
 <template>

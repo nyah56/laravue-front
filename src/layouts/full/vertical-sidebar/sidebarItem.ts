@@ -1,4 +1,4 @@
-import { DashboardIcon, BrandChromeIcon, BuildingWarehouseIcon, BoxIcon, UsersIcon } from 'vue-tabler-icons';
+import { DashboardIcon, BrandChromeIcon, ShieldCheckIcon, BoxIcon, UsersIcon } from 'vue-tabler-icons';
 
 export interface menu {
   header?: string;
@@ -19,18 +19,13 @@ export interface menu {
 const sidebarItem: menu[] = [
   { header: 'Dashboard' },
   {
-    title: 'Default',
+    title: 'Dashboard',
     icon: DashboardIcon,
-    to: '/dashboard/default'
+    to: '/dashboard'
   },
   { divider: true },
-  { header: 'Products' },
-  { divider: true },
-  {
-    title: 'Sample Page',
-    icon: BrandChromeIcon,
-    to: '/starter'
-  },
+  { header: 'Bussiness' },
+
   {
     title: 'Products',
     icon: BoxIcon,
@@ -41,6 +36,14 @@ const sidebarItem: menu[] = [
     title: 'Supplier',
     icon: UsersIcon,
     to: '/suppliers'
+    // type: 'external'
+  },
+  { divider: true },
+  { header: 'Admin' },
+  {
+    title: 'Role',
+    icon: ShieldCheckIcon,
+    to: '/role'
     // type: 'external'
   }
 ];

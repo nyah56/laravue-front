@@ -65,6 +65,16 @@ const MainRoutes = {
       component: () => import('@/views/role/index.vue')
     },
     {
+      name: 'Create Role',
+      path: '/role/create',
+      component: () => import('@/views/role/create.vue')
+    },
+    {
+      name: 'Edit Role',
+      path: '/role/edit/:id',
+      component: () => import('@/views/role/edit.vue')
+    },
+    {
       name: 'Tabler Icons',
       path: '/icons/tabler',
       component: () => import('@/views/utilities/icons/TablerIcons.vue')
