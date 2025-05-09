@@ -59,20 +59,39 @@ const MainRoutes = {
       path: '/suppliers/edit/:id',
       component: () => import('@/views/supplier/edit.vue')
     },
+    // Role Route
     {
       name: 'Role',
       path: '/role',
-      component: () => import('@/views/role/index.vue')
+      component: () => import('@/views/role/index.vue'),
+      meta: {
+        isAdmin: true
+      }
     },
     {
       name: 'Create Role',
       path: '/role/create',
-      component: () => import('@/views/role/create.vue')
+      component: () => import('@/views/role/create.vue'),
+      meta: {
+        isAdmin: true
+      }
     },
     {
       name: 'Edit Role',
       path: '/role/edit/:id',
-      component: () => import('@/views/role/edit.vue')
+      component: () => import('@/views/role/edit.vue'),
+      meta: {
+        isAdmin: true
+      }
+    },
+
+    {
+      name: 'Create Role',
+      path: '/user/create',
+      component: () => import('@/views/users/create.vue'),
+      meta: {
+        isAdmin: true
+      }
     },
     {
       name: 'Tabler Icons',

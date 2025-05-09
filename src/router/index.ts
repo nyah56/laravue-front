@@ -27,7 +27,6 @@ interface AuthStore {
   user: User | null;
   isAdmin: Boolean;
   returnUrl: string | null;
-  login(username: string, password: string): Promise<void>;
   logout(): void;
   getUser(): void;
 }
@@ -41,7 +40,7 @@ router.beforeEach(async (to, from, next) => {
   const authRequired = !isPublicPage && to.matched.some((record) => record.meta.requiresAuth);
   const adminOnly = authRequired && to.matched.some((record) => record.meta.isAdmin);
   // auth.user = null;
-
+  console.log(auth);
   if (!publicPages) {
     auth.getUser();
   }
@@ -53,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
 
   // Block non-admin users from admin routes
   if (adminOnly && auth.user && !auth.isAdmin) {
-    return next('/not-authorized'); // or redirect to a safe fallback
+    return next('/dashboard'); // or redirect to a safe fallback
   }
 
   // Prevent logged-in users from seeing login page

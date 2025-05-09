@@ -1,5 +1,7 @@
 import { DashboardIcon, BrandChromeIcon, ShieldCheckIcon, BoxIcon, UsersIcon } from 'vue-tabler-icons';
+// import { ref, onMounted } from 'vue';
 
+// const navigation = ref<any[]>([]);
 export interface menu {
   header?: string;
   title?: string;
@@ -37,15 +39,11 @@ const sidebarItem: menu[] = [
     icon: UsersIcon,
     to: '/suppliers'
     // type: 'external'
-  },
-  { divider: true },
-  { header: 'Admin' },
-  {
-    title: 'Role',
-    icon: ShieldCheckIcon,
-    to: '/role'
-    // type: 'external'
   }
 ];
+
+// onMounted(() => {
+//   isAdminSidebar();
+// });
 
 export default sidebarItem;

@@ -1,16 +1,67 @@
 <script setup lang="ts">
-import { shallowRef } from 'vue';
+import { shallowRef, computed } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
+import { useAuthStore } from '@/stores/auth';
+import { ShieldCheckIcon } from 'vue-tabler-icons';
 import sidebarItems from './sidebarItem';
-
 import NavGroup from './NavGroup/NavGroup.vue';
 import NavItem from './NavItem/NavItem.vue';
 import NavCollapse from './NavCollapse/NavCollapse.vue';
 
 import Logo from '../logo/LogoMain.vue';
-
+const auth = useAuthStore();
+interface menu {
+  header?: string;
+  title?: string;
+  icon?: object;
+  to?: string;
+  divider?: boolean;
+  chip?: string;
+  chipColor?: string;
+  chipVariant?: string;
+  chipIcon?: string;
+  children?: menu[];
+  disabled?: boolean;
+  type?: string;
+  subCaption?: string;
+}
 const customizer = useCustomizerStore();
-const sidebarMenu = shallowRef(sidebarItems);
+
+const isAdminSidebar = (data: Array<menu>) => {
+  // Clear existing nav
+
+  // If user is admin, push admin nav
+  // console.log(auth.isAdmin);
+  if (auth.isAdmin) {
+    data.push(
+      { divider: true },
+      { header: 'Admin' },
+      {
+        title: 'Role',
+        icon: ShieldCheckIcon,
+        to: '/role'
+        // type: 'external'
+      }
+    );
+    return data;
+  }
+  return data;
+};
+const sidebarMenu = computed(() => {
+  const items = [...sidebarItems]; // Clone original
+  if (auth.isAdmin) {
+    items.push(
+      { divider: true },
+      { header: 'Admin' },
+      {
+        title: 'Role',
+        icon: ShieldCheckIcon,
+        to: '/role'
+      }
+    );
+  }
+  return items;
+});
 </script>
 
 <template>

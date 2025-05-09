@@ -3,7 +3,8 @@ import { router } from '@/router';
 import { api, auth } from '@/utils/api';
 const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
 interface User {
-  id: number;
+  // id: number;
+  email: string;
   name: string;
   // role: string;
 }
@@ -19,7 +20,25 @@ export const useAuthStore = defineStore({
     logoutTimer: null as ReturnType<typeof setTimeout> | null,
     returnUrl: null
   }),
-  persist: true,
+  // persist: true,
+  persist: [
+    {
+      pick: ['user'],
+      storage: localStorage
+    }
+    // {
+    //   pick: ['logoutTimer'],
+    //   storage: localStorage
+    // },
+    // {
+    //   pick: ['returnUrl'],
+    //   storage: localStorage
+    // },
+    // {
+    //   pick: ['isAdmin'],
+    //   storage: sessionStorage
+    // }
+  ],
   actions: {
     async getUser() {
       if (this.user) return this.user;
@@ -32,8 +51,9 @@ export const useAuthStore = defineStore({
           }
         });
         // console.log('User data:', response.data);
-        this.isAdmin = response.data.data.role === 'Admin' ? true : false;
-        this.user = response.data.data;
+        const { name, role, email } = response.data.data;
+        this.isAdmin = role === 'Admin' ? true : false;
+        this.user = { email: email, name: name };
         this.resetLogoutTimer();
       } catch (error: any) {
         // console.log(error);
@@ -63,6 +83,8 @@ export const useAuthStore = defineStore({
       try {
         await auth.post('/api/logout');
         this.user = null;
+        this.returnUrl = null;
+        this.isAdmin = false;
         // localStorage.removeItem('user');
         router.push('/login');
       } catch (error) {
