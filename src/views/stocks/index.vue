@@ -5,10 +5,10 @@
       <BasicDataTable
         :data="supplier"
         :headers="header"
-        create-url="/suppliers/create"
+        create-url="/stocks/create"
         @edit="getById"
         @delete="openDialog"
-        trashed-url="/suppliers/trashed"
+        trashed-url="/stocks/trashed"
         main-url="/suppliers"
       />
       <ConfirmDelete v-model:dialog="showDialog" @confirm-delete="deleteData" />
@@ -27,9 +27,9 @@ const showDialog = ref(false);
 
 const headers = [
   // Do NOT include id
-  { key: 'name', title: 'Company Name', value: 'name' },
-  { key: 'address', title: 'Address', value: 'address' },
-  { key: 'contacts', title: 'Contacts', value: 'contacts' },
+  { key: 'product_name', title: 'Product Name', value: 'product_name' },
+  { key: 'quantity', title: 'Quantity', value: 'quantity' },
+  { key: 'description', title: 'Description', value: 'description' },
   { key: 'action', title: 'Action', value: 'action' }
   //   { text: 'Actions', value: 'actions', sortable: false }
 ];
@@ -37,7 +37,7 @@ const header = ref(headers);
 const supplier = ref([]);
 const getById = (item: any) => {
   // console.log(item);
-  router.push(`/suppliers/edit/${item.id}`);
+  router.push(`/stocks/edit/${item.id}`);
 };
 const deleteId = ref('');
 // const test = async () => {
@@ -46,7 +46,7 @@ const deleteId = ref('');
 // };
 const getData = async () => {
   try {
-    const response = await api.get('/api/suppliers');
+    const response = await api.get('/api/stocks');
     // console.log(response.data.data);
     supplier.value = response.data.data;
     // console.log(products.value);
@@ -63,7 +63,7 @@ const deleteData = async () => {
   // console.log(item);
 
   try {
-    const response = await api.delete(`/api/suppliers/${deleteId.value}`);
+    const response = await api.delete(`/api/stocks/${deleteId.value}`);
     // console.log(response.data.data);
     // supplier.value = response.data.data;
     // console.log(products.value);

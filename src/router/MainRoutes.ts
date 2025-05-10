@@ -84,14 +84,35 @@ const MainRoutes = {
         isAdmin: true
       }
     },
-
+    //User CRUD
     {
-      name: 'Create Role',
+      name: 'Create User',
       path: '/user/create',
       component: () => import('@/views/users/create.vue'),
       meta: {
         isAdmin: true
       }
+    },
+    //Stock CRUD
+    {
+      name: 'Stock',
+      path: '/stocks',
+      component: () => import('@/views/stocks/index.vue')
+    },
+    {
+      name: 'Stock Create',
+      path: '/stocks/create',
+      component: () => import('@/views/stocks/create.vue')
+    },
+    {
+      name: 'Stock Edit',
+      path: '/stocks/edit/:id',
+      component: () => import('@/views/stocks/edit.vue')
+    },
+    {
+      name: 'Stock Trashed',
+      path: '/stocks/trashed',
+      component: () => import('@/views/stocks/trashed.vue')
     },
     {
       name: 'Tabler Icons',

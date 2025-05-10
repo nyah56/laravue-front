@@ -8,6 +8,12 @@ interface User {
   name: string;
   // role: string;
 }
+interface Role {
+  // id: number;
+  email: string;
+  name: string;
+  role: string;
+}
 export const useAuthStore = defineStore({
   id: 'auth',
 
@@ -16,7 +22,7 @@ export const useAuthStore = defineStore({
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     // @ts-ignore
     user: null as User | null,
-    isAdmin: false,
+    // isAdmin: false,
     logoutTimer: null as ReturnType<typeof setTimeout> | null,
     returnUrl: null
   }),
@@ -36,12 +42,13 @@ export const useAuthStore = defineStore({
     // },
     // {
     //   pick: ['isAdmin'],
-    //   storage: sessionStorage
+    //   storage: localStorage
     // }
   ],
   actions: {
-    async getUser() {
-      if (this.user) return this.user;
+    async fetchUser() {
+      // this.user = null;
+      // if (this.user) return this.user;
       try {
         const response = await api.get('/api/user', {
           headers: {
@@ -50,11 +57,12 @@ export const useAuthStore = defineStore({
             'Content-Type': 'application/json'
           }
         });
-        // console.log('User data:', response.data);
-        const { name, role, email } = response.data.data;
-        this.isAdmin = role === 'Admin' ? true : false;
-        this.user = { email: email, name: name };
+        // console.log('User data:');
+        const { name, email, role } = response.data.data;
+        // this.isAdmin = role === 'Admin' ? true : false;
+
         this.resetLogoutTimer();
+        return { name, email, role };
       } catch (error: any) {
         // console.log(error);
         switch (error.response.status) {
@@ -64,6 +72,11 @@ export const useAuthStore = defineStore({
             break;
         }
       }
+    },
+    async getUser() {
+      if (this.user) return this.user;
+      const response: any = await this.fetchUser();
+      this.user = { email: response.email, name: response.name };
     },
     async login(email: string, password: string) {
       await auth.get('/sanctum/csrf-cookie');
@@ -84,7 +97,7 @@ export const useAuthStore = defineStore({
         await auth.post('/api/logout');
         this.user = null;
         this.returnUrl = null;
-        this.isAdmin = false;
+        // this.isAdmin = false;
         // localStorage.removeItem('user');
         router.push('/login');
       } catch (error) {

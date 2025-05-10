@@ -61,7 +61,7 @@ const mapForSelect = (datas: Array<SupplierData>) => {
 
 const fetchSupplierData = async () => {
   try {
-    const response = await api.get('/api/supplier/');
+    const response = await api.get('/api/suppliers/');
     // console.log(response.data.data);
     // console.log();
     supplier.value = response.data.data;

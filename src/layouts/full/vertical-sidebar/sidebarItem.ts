@@ -39,6 +39,13 @@ const sidebarItem: menu[] = [
     icon: UsersIcon,
     to: '/suppliers'
     // type: 'external'
+  },
+  { divider: true },
+  { header: 'Admin' },
+  {
+    title: 'Role',
+    icon: ShieldCheckIcon,
+    to: '/role'
   }
 ];
 

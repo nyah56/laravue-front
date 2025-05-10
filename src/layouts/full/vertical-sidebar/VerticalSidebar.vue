@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef, computed } from 'vue';
+import { shallowRef, computed, onMounted, ref } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
 import { useAuthStore } from '@/stores/auth';
 import { ShieldCheckIcon } from 'vue-tabler-icons';
@@ -9,6 +9,7 @@ import NavItem from './NavItem/NavItem.vue';
 import NavCollapse from './NavCollapse/NavCollapse.vue';
 
 import Logo from '../logo/LogoMain.vue';
+// import {  } from 'vue';
 const auth = useAuthStore();
 interface menu {
   header?: string;
@@ -27,41 +28,32 @@ interface menu {
 }
 const customizer = useCustomizerStore();
 
-const isAdminSidebar = (data: Array<menu>) => {
-  // Clear existing nav
-
-  // If user is admin, push admin nav
-  // console.log(auth.isAdmin);
-  if (auth.isAdmin) {
-    data.push(
-      { divider: true },
-      { header: 'Admin' },
-      {
-        title: 'Role',
-        icon: ShieldCheckIcon,
-        to: '/role'
-        // type: 'external'
-      }
-    );
-    return data;
+const roleVal = ref();
+onMounted(async () => {
+  const user = await auth.fetchUser();
+  if (user) {
+    roleVal.value = user.role === 'Admin' ? true : false;
+    // console.log(roleVal.value);
+    console.log('Fetch');
   }
-  return data;
-};
-const sidebarMenu = computed(() => {
-  const items = [...sidebarItems]; // Clone original
-  if (auth.isAdmin) {
-    items.push(
-      { divider: true },
-      { header: 'Admin' },
-      {
-        title: 'Role',
-        icon: ShieldCheckIcon,
-        to: '/role'
-      }
-    );
-  }
-  return items;
 });
+const sidebarMenu = sidebarItems;
+// const sidebarMenu = computed(() => {
+//   const items = [...sidebarItems]; // Clone original
+//   // console.log(await auth.getUser());
+//   if (roleVal.value) {
+//     items.push(
+//       { divider: true },
+//       { header: 'Admin' },
+//       {
+//         title: 'Role',
+//         icon: ShieldCheckIcon,
+//         to: '/role'
+//       }
+//     );
+//   }
+//   return items;
+// });
 </script>
 
 <template>

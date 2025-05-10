@@ -5,13 +5,21 @@
       <BasicDataTable
         :data="supplier"
         :headers="header"
-        create-url="/suppliers/create"
-        @edit="getById"
-        @delete="openDialog"
-        trashed-url="/suppliers/trashed"
-        main-url="/suppliers"
+        create-url="/stocks/create"
+        :edit="false"
+        :delete="false"
+        :restore="true"
+        @restore="openDialog"
+        trashed-url="/stocks/trashed"
+        main-url="/stocks"
+        cr
       />
-      <ConfirmDelete v-model:dialog="showDialog" @confirm-delete="deleteData" />
+      <ConfirmDelete
+        v-model:dialog="showDialog"
+        title="Data Restore"
+        text="Your Data Will Be Restored to main Database"
+        @confirm-delete="restoreData"
+      />
     </v-col>
   </v-row>
 </template>
@@ -27,26 +35,23 @@ const showDialog = ref(false);
 
 const headers = [
   // Do NOT include id
-  { key: 'name', title: 'Company Name', value: 'name' },
-  { key: 'address', title: 'Address', value: 'address' },
-  { key: 'contacts', title: 'Contacts', value: 'contacts' },
+  { key: 'product_name', title: 'Product Name', value: 'product_name' },
+  { key: 'quantity', title: 'Quantity', value: 'quantity' },
+  { key: 'description', title: 'Description', value: 'description' },
   { key: 'action', title: 'Action', value: 'action' }
   //   { text: 'Actions', value: 'actions', sortable: false }
 ];
 const header = ref(headers);
 const supplier = ref([]);
-const getById = (item: any) => {
-  // console.log(item);
-  router.push(`/suppliers/edit/${item.id}`);
-};
+
 const deleteId = ref('');
-// const test = async () => {
-//   const response = await api.get('/api/user');
-//   console.log(response.data);
-// };
+const openDialog = (item: any) => {
+  showDialog.value = true;
+  deleteId.value = item.id;
+};
 const getData = async () => {
   try {
-    const response = await api.get('/api/suppliers');
+    const response = await api.get('/api/stocks/trashed/');
     // console.log(response.data.data);
     supplier.value = response.data.data;
     // console.log(products.value);
@@ -54,16 +59,12 @@ const getData = async () => {
     console.error(error);
   }
 };
-const openDialog = (item: any) => {
-  showDialog.value = true;
-  deleteId.value = item.id;
-};
-const deleteData = async () => {
+const restoreData = async () => {
   // showDialog.value = true;
   // console.log(item);
 
   try {
-    const response = await api.delete(`/api/suppliers/${deleteId.value}`);
+    const response = await api.get(`/api/stocks/restore/${deleteId.value}`);
     // console.log(response.data.data);
     // supplier.value = response.data.data;
     // console.log(products.value);
@@ -76,7 +77,6 @@ const deleteData = async () => {
 const page = ref({ title: 'Supplier' });
 onMounted(() => {
   getData();
-  // test();
   //   getDeleted();
 });
 </script>

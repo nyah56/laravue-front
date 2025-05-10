@@ -17,30 +17,40 @@ export const router = createRouter({
 
 interface User {
   // Define the properties and their types for the user data here
-  // For example:
-  id: number;
+  email: string;
   name: string;
+  // role: string;
 }
-
+interface Role {
+  // Define the properties and their types for the user data here
+  email: string;
+  name: string;
+  role: string;
+}
+interface Admin {
+  role: string;
+}
 // Assuming you have a type/interface for your authentication store
-interface AuthStore {
-  user: User | null;
-  isAdmin: Boolean;
-  returnUrl: string | null;
-  logout(): void;
-  getUser(): void;
-}
+// interface AuthStore {
+//   user: User | null;
+//   // isAdmin: Boolean;
+
+//   returnUrl: string | null;
+//   logout(): void;
+//   getUser(): void;
+//   fetchUser(): Promise<User | undefined>;
+// }
 
 router.beforeEach(async (to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
   const publicPages = ['/login'];
-  const auth: AuthStore = useAuthStore();
+  const auth: any = useAuthStore();
 
   const isPublicPage = publicPages.includes(to.path);
   const authRequired = !isPublicPage && to.matched.some((record) => record.meta.requiresAuth);
   const adminOnly = authRequired && to.matched.some((record) => record.meta.isAdmin);
   // auth.user = null;
-  console.log(auth);
+  // console.log(auth);
   if (!publicPages) {
     auth.getUser();
   }
@@ -49,11 +59,14 @@ router.beforeEach(async (to, from, next) => {
     auth.returnUrl = to.fullPath;
     return next('/login');
   }
+  const fetch = auth.fetchUser();
 
+  const role = fetch?.role === 'Admin' ? true : false;
+  // console.log(role);
   // Block non-admin users from admin routes
-  if (adminOnly && auth.user && !auth.isAdmin) {
-    return next('/dashboard'); // or redirect to a safe fallback
-  }
+  // if (adminOnly && auth.user && !role) {
+  //   return next('/dashboard'); // or redirect to a safe fallback
+  // } ----progress
 
   // Prevent logged-in users from seeing login page
   if (auth.user && to.path === '/login') {

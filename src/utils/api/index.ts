@@ -16,7 +16,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401 || error.response?.status === 498) {
       // Perform client-side logout only
       auth.user = null;
-      auth.isAdmin = false;
+      // auth.isAdmin = false;
     }
 
     return Promise.reject(error);
